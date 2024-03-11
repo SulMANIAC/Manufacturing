@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .panel {
+            width: 100%;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .panel-header {
+            background-color: #ccc;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .panel-body {
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #d9d9d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <div class="panel-header">Maintenance is Logged In</div>
+        <div class="panel-body">
+            <table>
+                <tr>
+                    <th colspan="5">Current Alarms</th>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Priority</th>
+                    <th>Location</th>
+                    <td rowspan="4" style="background-color:#f2f2f2;">Alarm Frequency Graph</td>
+                </tr>
+                <!-- Add more rows as needed -->
+                <!-- Example row -->
+                <!--
+                <tr>
+                    <td>MM/DD/YYYY HH:mm:ss AM/PM</td>
+                    <td>High/Medium/Low</td>
+                    <td>Location Name</td>
+                </tr>
+                -->
+                <tr>
+                    <th colspan="5">Past Alarms</th>
+                </tr>
+                <!-- Add more rows as needed -->
+                <!-- Example row -->
+                <!--
+                <tr>
+                    <td>Date</td>
+                    <td>Priority</td>
+                    <td>Location</td>
+                </tr>
+                -->
+            </table>
+        </div>
+    </div>
+</body>
+</html>
