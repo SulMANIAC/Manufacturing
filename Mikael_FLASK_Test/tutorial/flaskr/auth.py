@@ -1,6 +1,6 @@
 import functools
 
-from flask import Blueprint
+from flask import Blueprint, current_app
 from flask import flash
 from flask import g
 from flask import redirect
@@ -27,7 +27,6 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -102,6 +101,18 @@ def login():
             # store the user id in a new session
             session.clear()
             session["user_id"] = user["id"]
+            create_databases
+
+        def create_databases():
+
+            db = get_db()
+
+             # List of your SQL databases to force initalize upon login
+            sql_files = ['past_alarms.sql', 'current_alarms.sql', 'operator_tables.sql']
+
+            for sql_file in sql_files:
+                with current_app.open_resource(sql_file) as f:
+                    db.executescript(f.read().decode("utf8"))
 
             # if the user is maintenance, redirect to maintenance page
             if username == "maintenance" and password == "password":
