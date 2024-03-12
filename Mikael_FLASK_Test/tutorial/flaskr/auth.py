@@ -99,14 +99,21 @@ def login():
             error = "Incorrect password."
 
         if error is None:
-            # store the user id in a new session and return to the index
+            # store the user id in a new session
             session.clear()
             session["user_id"] = user["id"]
+
+            # if the user is admin, redirect to maintenance page
+            if username == "maintenance" and password == "password":
+                return redirect(url_for("maintenance.home"))
+
+            # otherwise, redirect to the index
             return redirect(url_for("index"))
 
         flash(error)
 
     return render_template("auth/login.html")
+
 
 
 @bp.route("/logout")
