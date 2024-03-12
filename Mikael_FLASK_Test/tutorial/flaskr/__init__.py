@@ -40,11 +40,13 @@ def create_app(test_config=None):
     from . import blog
     from . import maintenance
     from . import engineer
+    from . import operator
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
     app.register_blueprint(maintenance.bp, url_prefix='/maintenance')
     app.register_blueprint(engineer.bp, url_prefix='/engineer')
+    app.register_blueprint(operator.bp, url_prefix='/operator')
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with

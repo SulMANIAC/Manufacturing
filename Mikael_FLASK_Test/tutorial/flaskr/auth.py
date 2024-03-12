@@ -110,6 +110,10 @@ def login():
              # if the user is engineer, redirect to engineer page
             if username == "engineer" and password == "password":
                 return redirect(url_for("engineer.home"))
+            
+            # if the user is operator, redirect to operator page
+            if username == "operator" and password == "password":
+                return redirect(url_for("operator.home"))
 
             # otherwise, redirect to the index
             return redirect(url_for("index"))
