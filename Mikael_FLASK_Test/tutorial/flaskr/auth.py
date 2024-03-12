@@ -103,9 +103,13 @@ def login():
             session.clear()
             session["user_id"] = user["id"]
 
-            # if the user is admin, redirect to maintenance page
+            # if the user is maintenance, redirect to maintenance page
             if username == "maintenance" and password == "password":
                 return redirect(url_for("maintenance.home"))
+            
+             # if the user is engineer, redirect to engineer page
+            if username == "engineer" and password == "password":
+                return redirect(url_for("engineer.home"))
 
             # otherwise, redirect to the index
             return redirect(url_for("index"))
