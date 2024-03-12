@@ -5,9 +5,13 @@ from faker import Faker
 # Create a new SQLite database (or connect to it if it already exists)
 conn = sqlite3.connect('alarminfo.db')
 c = conn.cursor()
-
 # Create the tables
+
 c.execute('''
+DROP TABLE IF EXISTS AlarmHistory
+''')
+c.execute('''
+    
     CREATE TABLE AlarmHistory (
         ID INTEGER PRIMARY KEY,
         AlarmName TEXT NOT NULL,
@@ -16,6 +20,12 @@ c.execute('''
     )
 ''')
 
+
+c.execute('''
+DROP TABLE IF EXISTS OperatorActions
+''')
+
+
 c.execute('''
     CREATE TABLE OperatorActions (
         ID INTEGER PRIMARY KEY,
@@ -23,6 +33,11 @@ c.execute('''
         ActionTime TEXT NOT NULL,
         ActionDetails TEXT NOT NULL
     )
+''')
+
+
+c.execute('''
+DROP TABLE IF EXISTS AcknowledgeHistory
 ''')
 
 c.execute('''
@@ -36,7 +51,11 @@ c.execute('''
 ''')
 
 c.execute('''
-    CREATE TABLE AlarmReports (
+DROP TABLE IF EXISTS alarmreports
+''')
+
+c.execute('''
+    CREATE TABLE alarmreports (
         ID INTEGER PRIMARY KEY,
         ReportTime TEXT NOT NULL,
         ReportDetails TEXT NOT NULL,
@@ -64,7 +83,7 @@ for _ in range(100):
 
     report_time = fake.date_time().isoformat()
     report_details = fake.paragraph()
-    c.execute('INSERT INTO AlarmReports (ReportTime, ReportDetails, AlarmID) VALUES (?, ?, ?)', (report_time, report_details, alarm_id))
+    c.execute('INSERT INTO alarmreports (ReportTime, ReportDetails, AlarmID) VALUES (?, ?, ?)', (report_time, report_details, alarm_id))
 
 # Commit the changes and close the connection
 conn.commit()
