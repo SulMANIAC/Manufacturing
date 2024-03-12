@@ -61,8 +61,8 @@ def alarm_history():
     data = [dict(row) for row in rows]
     return render_template('table.html', header="Alarm History", data=data)
 
-@bp.route('/forecasting_action', methods=['POST'])
-def alarm_report():
+@bp.route('/forecasting_actions', methods=['POST'])
+def forecasting_actions():
     print("Forecasting Actions button clicked")
     conn = sqlite3.connect("alarminfo.db")
     conn.row_factory = sqlite3.Row
@@ -73,7 +73,7 @@ def alarm_report():
     return render_template('table.html', header="Forecasting Actions", data=data)
 
 @bp.route('/forecasting_data', methods=['POST'])
-def alarm_report():
+def forecasting_data():
     print("Forecasting Data button clicked")
     conn = sqlite3.connect("alarminfo.db")
     conn.row_factory = sqlite3.Row
