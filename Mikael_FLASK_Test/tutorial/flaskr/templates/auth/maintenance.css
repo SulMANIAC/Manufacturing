@@ -1,22 +1,24 @@
 body {
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   padding: 0;
   background-color: #f3f3f3;
 }
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #ddd;
+  background-color: #f9e2e2; /* Changed to pink /
   width: 100%;
 }
-
 header button {
   padding: 10px;
-  background-color: #4CAF50; /* Green */
+  background-color: #aaa; / Changed to grey /
   border: none;
   color: white;
   text-align: center;
@@ -26,50 +28,47 @@ header button {
   margin: 4px 2px;
   cursor: pointer;
 }
-
 header h1 {
   margin: 0;
 }
-
 .content {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-
 .alarms {
   width: 50%;
   padding: 20px;
-  box-sizing: border-box;
 }
-
 .alarms h2 {
   margin-top: 0;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
 }
-
 th, td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
 }
-
 th {
-  background-color: #4CAF50;
+  background-color: #f9e2e2; / Changed to pink /
   color: white;
 }
-
 .graphs {
   width: 50%;
   padding: 20px;
-  box-sizing: border-box;
 }
-
-.graphs h2 {
-  margin-top: 0;
+.graphs button {
+  padding: 15px; / Made larger /
+  background-color: #f9e2e2; / Changed to pink */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
