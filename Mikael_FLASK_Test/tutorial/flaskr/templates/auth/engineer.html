@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineer Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #B975FF;
+            width: 100%;
+        }
+        header button {
+            padding: 10px;
+            background-color: #F5F5F5;
+            border: none;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .alarms {
+            width: 50%;
+            padding: 20px;
+        }
+        .alarms h2 {
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #B975FF;
+            color: white;
+        }
+        .graphs {
+            width: 50%;
+            padding: 20px;
+        }
+        .graphs button {
+            padding: 15px;
+            background-color: #B975FF;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    .graphs {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .section {
+        width: 33%;
+        padding: 20px;
+    }
+        .content {
+            display: flex;
+        }
+        .alarms {
+            width: 50%;
+            padding: 20px;
+        }
+        .graphs {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        .section {
+            width: 100%;
+            padding: 20px;
+        }
+        .content {
+            display: flex;
+        }
+        .alarms {
+            width: 50%;
+            padding: 20px;
+        }
+        .graphs {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+        .section-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .section {
+            width: 33%;
+            padding: 20px;
+        }
+        .section form {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .section button {
+            width: 190px;  /* Adjusted width */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <form action="{{ url_for('engineer.acknowledge') }}" method="POST">
+        <button type="submit">Acknowledge</button>
+    </form>
+    <h1>Engineer is Logged In</h1>
+    <form action="{{ url_for('engineer.logout') }}" method="POST">
+        <button type="submit">Log Out</button>
+    </form>
+</header>
+
+<div class="content">
+    <div class="alarms">
+        <section id="current-alarms">
+            <h2>Current Alarms</h2>
+            <!-- Table for Current Alarms -->
+            <table>
+              <tr><th>Alarms</th><th>Date</th><th>Priority</th><th>Location</th></tr> <!-- Added Alarms column -->
+
+              <!-- Rows for each alarm -->
+              <!-- Example:
+              <tr><td>Alarm 1</td><td>2022-03-01</td><td>High</td><td>New York, NY</td></tr>
+              -->
+              
+              <!-- Placeholder rows as in the image -->
+              <tr><td></td><td></td><td></td><td></td></tr>
+           </table>
+         </section>
+
+        <section id="past-alarms">
+           <h2>Past Alarms</h2>
+           <!-- Similar structure to current alarms -->
+           <table>
+              <tr><th>Alarms</th><th>Date</th><th>Priority</th><th>Location</th></tr> <!-- Added Alarms column -->
+              <tr><td></td><td></td><td></td><td></td></tr>
+           </table>
+         </section>
+    </div>
+
+    <div class="graphs">
+        <section id="alarm-data-graphs">
+           <h2>Alarm Data Graphs</h2>
+           <!-- Placeholder for Alarm Frequency Graph -->
+           Alarm Frequency Graph
+         </section>
+
+        <div class="section-row">
+            <div class="section" id="reports">
+               <h2>Reports</h2>
+               <form action="{{ url_for('engineer.alarm_report') }}" method="POST">
+                   <button type="submit">Alarm Report</button>
+               </form>
+               <form action="{{ url_for('engineer.operator_actions') }}" method="POST">
+                   <button type="submit">Operator Actions</button>
+               </form>
+            </div>
+
+            <div class="section" id="forecasting">
+               <h2>Forecasting</h2>
+               <form action="{{ url_for('engineer.forecasting_actions') }}" method="POST">
+                   <button type="submit">Forecasting Actions</button>
+               </form>
+               <form action="{{ url_for('engineer.forecasting_data') }}" method="POST">
+                   <button type="submit">Forecasting Graphs</button>
+               </form>
+            </div>
+
+            <div class="section" id="records">
+               <h2>Records</h2>
+               <form action="{{ url_for('engineer.acknowledge_history') }}" method="POST">
+                   <button type="submit">Acknowledge History</button>
+               </form>
+               <form action="{{ url_for('engineer.alarm_history') }}" method="POST">
+                   <button type="submit">Alarm History</button>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+

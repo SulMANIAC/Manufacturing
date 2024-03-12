@@ -13,12 +13,12 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f9e2e2; /* Changed to pink */
+  background-color: #f9e2e2; /* Changed to pink /
   width: 100%;
 }
 header button {
   padding: 10px;
-  background-color: #aaa; /* Changed to grey */
+  background-color: #aaa; / Changed to grey /
   border: none;
   color: white;
   text-align: center;
@@ -53,7 +53,7 @@ th, td {
   text-align: left;
 }
 th {
-  background-color: #f9e2e2; /* Changed to pink */
+  background-color: #f9e2e2; / Changed to pink /
   color: white;
 }
 .graphs {
@@ -61,8 +61,8 @@ th {
   padding: 20px;
 }
 .graphs button {
-  padding: 15px; /* Made larger */
-  background-color: #f9e2e2; /* Changed to pink */
+  padding: 15px; / Made larger /
+  background-color: #f9e2e2; / Changed to pink */
   border: none;
   color: white;
   text-align: center;
