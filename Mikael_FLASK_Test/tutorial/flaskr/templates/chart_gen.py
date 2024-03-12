@@ -34,3 +34,23 @@ def data():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+#/* This is a future template for loading up the Chart.js file.
+#fetch('/data')
+#    .then(response => response.json())
+#
+#    .then(data => {
+#        var ctx = document.getElementById('myChart').getContext('2d');
+#       var myChart = new Chart(ctx, {
+#           type: 'bar',
+#           data: data,
+#           options: {
+#               scales: {
+#                   y: {
+#                       beginAtZero: true
+#                   }
+#               }
+#           }
+#       });
+#   });
+#*/
