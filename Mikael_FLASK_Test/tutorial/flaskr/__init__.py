@@ -38,9 +38,11 @@ def create_app(test_config=None):
     # apply the blueprints to the app
     from . import auth
     from . import blog
+    from . import maintenance
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
+    app.register_blueprint(maintenance.bp, url_prefix='/maintenance')
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
@@ -49,3 +51,8 @@ def create_app(test_config=None):
     app.add_url_rule("/", endpoint="index")
 
     return app
+
+
+
+
+
