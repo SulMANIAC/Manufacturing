@@ -1,11 +1,11 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 import sqlite3
 
-bp = Blueprint("maintenance", __name__)
+bp = Blueprint("engineer", __name__)
 
 @bp.route('/')
 def home():
-    return render_template("auth/maintenance.html")
+    return render_template("auth/engineer.html")
 
 @bp.route('/logout', methods=['POST'])
 def logout():
@@ -61,9 +61,33 @@ def alarm_history():
     data = [dict(row) for row in rows]
     return render_template('table.html', header="Alarm History", data=data)
 
-@bp.route('/maintenance')
-def maintenance():
-    return render_template('maintenance.html')
+@bp.route('/forecasting_actions', methods=['POST'])
+def forecasting_actions():
+    print("Forecasting Actions button clicked")
+    conn = sqlite3.connect("alarminfo.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM forecastingactions")
+    rows = cursor.fetchall()
+    data = [dict(row) for row in rows]
+    return render_template('table.html', header="Forecasting Actions", data=data)
+
+@bp.route('/forecasting_data', methods=['POST'])
+def forecasting_data():
+    print("Forecasting Data button clicked")
+    conn = sqlite3.connect("alarminfo.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM forecastingdata")
+    rows = cursor.fetchall()
+    data = [dict(row) for row in rows]
+    return render_template('table.html', header="Forecasting Data", data=data)
+
+
+
+@bp.route('/engineer')
+def engineer():
+    return render_template('engineer.html')
 
 @bp.route('/index')
 def index():

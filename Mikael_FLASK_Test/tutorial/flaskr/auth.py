@@ -114,9 +114,17 @@ def login():
                 with current_app.open_resource(sql_file) as f:
                     db.executescript(f.read().decode("utf8"))
 
-            # if the user is admin, redirect to maintenance page
+            # if the user is maintenance, redirect to maintenance page
             if username == "maintenance" and password == "password":
                 return redirect(url_for("maintenance.home"))
+            
+             # if the user is engineer, redirect to engineer page
+            if username == "engineer" and password == "password":
+                return redirect(url_for("engineer.home"))
+            
+            # if the user is operator, redirect to operator page
+            #if username == "operator" and password == "password":
+             #   return redirect(url_for("operator.home"))
 
             # otherwise, redirect to the index
             return redirect(url_for("index"))
