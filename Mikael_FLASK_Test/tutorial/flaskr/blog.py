@@ -12,7 +12,6 @@ from .db import get_db
 
 bp = Blueprint("blog", __name__)
 
-
 @bp.route("/")
 def index():
     """Show all the posts, most recent first."""
@@ -23,7 +22,6 @@ def index():
         " ORDER BY created DESC"
     ).fetchall()
     return render_template("blog/index.html", posts=posts)
-
 
 def get_post(id, check_author=True):
     """Get a post and its author by id.
@@ -55,7 +53,6 @@ def get_post(id, check_author=True):
         abort(403)
 
     return post
-
 
 @bp.route("/create", methods=("GET", "POST"))
 @login_required
