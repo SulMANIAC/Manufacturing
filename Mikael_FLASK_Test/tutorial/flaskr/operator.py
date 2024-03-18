@@ -27,3 +27,16 @@ def index():
 
 if __name__ == '__main__':
     bp.run(debug=True)
+
+#opperator aknowledge history 
+@bp.route('/acknowledge_history', methods=['POST'])
+def acknowledge_history():
+    print("Acknowledge History button clicked")
+    conn = sqlite3.connect("alarminfo.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM AcknowledgeHistory")
+    rows = cursor.fetchall()
+    data = [dict(row) for row in rows]
+    return render_template('table.html', header="Acknowledge History", data=data)
+
