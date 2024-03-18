@@ -15,7 +15,6 @@ from .db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
-
 def login_required(view):
     """View decorator that redirects anonymous users to the login page."""
 
@@ -102,17 +101,7 @@ def login():
             session.clear()
             session["user_id"] = user["id"]
             create_databases
-
-        def create_databases():
-
-            db = get_db()
-
-             # List of your SQL databases to force initalize upon login
-            sql_files = ['past_alarms.sql', 'current_alarms.sql', 'operator_tables.sql']
-
-            for sql_file in sql_files:
-                with current_app.open_resource(sql_file) as f:
-                    db.executescript(f.read().decode("utf8"))
+            
 
             # if the user is maintenance, redirect to maintenance page
             if username == "maintenance" and password == "password":
@@ -140,3 +129,14 @@ def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
     return redirect(url_for("index"))
+
+def create_databases():
+
+            db = get_db()
+
+             # List of your SQL databases to force initalize upon login
+            sql_files = ['past_alarms.sql', 'current_alarms.sql', 'operator_tables.sql']
+
+            for sql_file in sql_files:
+                with current_app.open_resource(sql_file) as f:
+                    db.executescript(f.read().decode("utf8"))
