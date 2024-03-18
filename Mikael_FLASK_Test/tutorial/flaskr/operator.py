@@ -40,3 +40,14 @@ def acknowledge_history():
     data = [dict(row) for row in rows]
     return render_template('table.html', header="Acknowledge History", data=data)
 
+#opperator alarm history 
+@bp.route('/alarm_history', methods=['POST'])
+def alarm_history():
+    print("Alarm History button clicked")
+    conn = sqlite3.connect("alarminfo.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM AlarmHistory")
+    rows = cursor.fetchall()
+    data = [dict(row) for row in rows]
+    return render_template('table.html', header="Alarm History", data=data)
