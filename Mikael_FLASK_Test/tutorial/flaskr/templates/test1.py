@@ -12,7 +12,7 @@ def home():
     cur = conn.cursor()
 
     # Execute your SQL query
-    cur.execute("SELECT * FROM current_alarm")
+    cur.execute("SELECT * FROM current_alarms")
 
     # Fetch all results from the query
     alarms = cur.fetchall()
