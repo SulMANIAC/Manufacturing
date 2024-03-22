@@ -5,140 +5,380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Operator Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f3f3f3;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #4caf50; /* Changed to pink */
-            width: 100%;
-        }
-        header button {
-            padding: 10px;
-            background-color: #F5F5F5;
-            border: none;
-            color: black;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-        header h1 {
-            margin: 0;
-        }
-        .content {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .alarms {
-            width: 50%;
-            padding: 20px;
-        }
-        .alarms h2 {
-            margin-top: 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #4caf50; /* Changed to pink */
-            color: white;
-        }
-        .graphs {
-            width: 50%;
-            padding: 20px;
-        }
-        .graphs button {
-            padding: 15px; /* Made larger */
-            background-color: #4caf50; /* Changed to pink */
-            border: none;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-    </style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f3f3;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: lightgray;
+    width: 100%;
+}
+
+header button {
+    padding: 10px;
+    background-color: #F5F5F5;
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.alarms {
+    width: 50%;
+    padding: 20px;
+}
+
+.alarms h2 {
+    margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    background-color: lightgray;
+}
+
+th {
+    color: white;
+}
+
+th:first-child, td:first-child {
+    width: 10%;
+    text-align: center;
+}
+
+table th, table td {
+    padding: 10px;
+}
+
+th:nth-child(n+2), td:nth-child(n+2) {
+    width: 22.5%;
+}
+
+#current-alarms th {
+    background-color: #89CFF0;
+}
+
+#past-alarms th {
+    background-color: #FFB7D5;
+}
+
+.graphs {
+    width: 50%;
+    padding: 20px;
+}
+
+.graphs button {
+    padding: 15px;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#current-alarms table, #past-alarms table {
+    width: 100%;
+    display: table;
+}
+
+#current-alarms thead, #past-alarms thead {
+    display: table-header-group;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#current-alarms tbody, #past-alarms tbody {
+    display: table-row-group;
+    overflow: auto;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.scrollable {
+    height: 450px;
+    overflow-y: auto;
+}
+
+#past-alarms {
+    align-self: flex-start;
+    justify-self: flex-start;
+    text-align: left; /* Align the text to the left */
+    margin: 0; /* Remove any margins */
+    padding: 0; /* Remove any padding */
+}
+#current-alarms tfoot {
+    background-color: #89CFF0; /* Same color as the header of the Current Alarms table */
+}
+
+#past-alarms tfoot {
+    background-color: #FFB7D5; /* Same color as the header of the Past Alarms table */
+}
+
+</style>
 </head>
 <body>
+    <header>
+        <form action="{{ url_for('operator.acknowledge') }}" method="POST">
+            <button type="submit" onclick="acknowledgeAlarms()">Acknowledge</button>
+        </form>
+        <h1>Operator is Logged In</h1>
+        <form action="{{ url_for('operator.logout') }}" method="POST">
+            <button type="submit">Log Out</button>
+        </form>
+    </header>
+    <style>
+        .scrollable {
+            height: 200px; /* Adjust as needed */
+            overflow-y: auto;
+        }
+            
+        .footer {
+        background-color: #89CFF0; /* Change as needed */
+        border-top: 1px solid #000000; /* Change as needed */
+        position: sticky;
+        bottom: 0;
+        font-weight: bold;
+    }
+        </style>
+</body>
+<script>
 
-<header>
-    <form action="{{ url_for('operator.acknowledge') }}" method="POST">
-        <button type="submit">Acknowledge</button>
-    </form>
-    <h1>Operator is Logged In</h1>
-    <form action="{{ url_for('operator.logout') }}" method="POST">
-        <button type="submit">Log Out</button>
-    </form>
-</header>
+window.onload = function() {
+    var alarmsTable = document.querySelector('#current-alarms tbody');
+    var alarms = Array.from(alarmsTable.querySelectorAll('tr'));
+    var totalAlarms = alarms.length;
+    var highPriorityAlarms = alarms.filter(function(row) {
+        return row.cells[3].innerText === 'High';
+    }).length;
+    var plants = alarms.map(function(row) {
+        return row.cells[4].innerText;
+    });
+    var mostIssuesPlant = plants.sort((a,b) =>
+          plants.filter(v => v===a).length
+        - plants.filter(v => v===b).length
+    ).pop();
+    var dates = alarms.map(function(row) {
+        return row.cells[2].innerText;
+    });
+    var dateHighestAlarms = dates.sort((a,b) =>
+          dates.filter(v => v===a).length
+        - dates.filter(v => v===b).length
+    ).pop();
+    };
+
+document.getElementById('acknowledge-button').addEventListener('click', function() {
+    var currentAlarmsTable = document.querySelector('#current-alarms tbody');
+    var pastAlarmsTable = document.querySelector('#past-alarms tbody');
+    var selectedAlarms = Array.from(currentAlarmsTable.querySelectorAll('input[type="checkbox"]:checked')).map(function(input) {
+        return input.parentElement.parentElement;
+    });
+    selectedAlarms.forEach(function(row) {
+        currentAlarmsTable.removeChild(row);
+        pastAlarmsTable.appendChild(row);
+    });
+});
+
+// Define the acknowledgeAlarms function at the global scope
+window.acknowledgeAlarms = function() {
+    var currentAlarmsTable = document.querySelector('#current-alarms tbody');
+    var pastAlarmsTable = document.querySelector('#past-alarms tbody');
+    var selectedAlarms = Array.from(currentAlarmsTable.querySelectorAll('input[type="checkbox"]:checked')).map(function(input) {
+        return input.parentElement.parentElement;
+    });
+    selectedAlarms.forEach(function(row) {
+        currentAlarmsTable.removeChild(row);
+        pastAlarmsTable.appendChild(row);
+    });
+    }
+</script>
 
 <div class="content">
     <div class="alarms">
+        <!-- Current Alarms Section -->
         <section id="current-alarms">
             <h2>Current Alarms</h2>
-            
-            <!-- Table for Current Alarms -->
             <table>
-
-              <tr><th>Alarms</th><th>Date</th><th>Priority</th><th>Location</th></tr>
-
-
-              <!-- Rows for each alarm -->
-              <!-- Example:
-              <tr><td>Alarm 1</td><td>2022-03-01</td><td>High</td><td>New York, NY</td></tr>
-              -->
-              
-              <!-- Placeholder rows as in the image -->
-              <tr><td></td><td></td><td></td><td></td></tr>
-              <tr><td></td><td></td><td></td><td></td></tr>
-           </table>
-         </section>
-
-        <section id="past-alarms">
-           <h2>Past Alarms</h2>
-           <!-- Similar structure to current alarms -->
-           <table>
-
-            <tr><th>Alarms</th><th>Date</th><th>Priority</th><th>Location</th></tr>
-
-              <tr><td></td><td></td><td></td><td></td></tr>
-           </table>
-         </section>
-    </div>
-
-    <div class="graphs">
-        <section id="alarm-data-graphs">
-           <h2>Alarm Data Graphs</h2>
-           <!-- Placeholder for Alarm Frequency Graph -->
-           Alarm Frequency Graph
-        <button onclick="window.open('{{ url_for('operator.chart') }}', '_blank')">Open Chart</button>
-         </section>
-      </div>
-
-        
-    </div>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th><button type="button" onclick="sortTable('current-alarms', 1)">Alarms</button></th>
+                        <th><button type="button" onclick="sortTable('current-alarms', 2)">Date</button></th>
+                        <th><button type="button" onclick="sortTable('current-alarms', 3)">Priority</button></th>
+                        <th><button type="button" onclick="sortTable('current-alarms', 4)">Location</button></th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="scrollable">
+                <table>
+                        <tbody>
+                    <!-- Add a checkbox to each row -->
+                    <tr><td><input type="checkbox"></td><td>Power Failure (1)</td><td>2024-03-01</td><td>High</td><td>Plant 1</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Power Failure (2)</td><td>2024-03-08</td><td>Medium</td><td>Plant 2</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Temperature Alarm</td><td>2024-03-15</td><td>High</td><td>Plant 3</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Pressure Alarm</td><td>2024-03-22</td><td>Low</td><td>Plant 1</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Humidity Alarm</td><td>2024-03-29</td><td>Medium</td><td>Plant 2</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Vibration Alarm (1)</td><td>2024-04-05</td><td>High</td><td>Plant 3</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Vibration Alarm (2)</td><td>2024-04-12</td><td>Medium</td><td>Plant 1</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Flow Rate Alarm</td><td>2024-04-19</td><td>Low</td><td>Plant 2</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Gas Leak Alarm</td><td>2024-04-26</td><td>High</td><td>Plant 3</td></tr>
+                    <tr><td><input type="checkbox"></td><td>Fire Alarm</td><td>2024-05-03</td><td>High</td><td>Plant 1</td></tr>
+<!-- More rows... -->
+</tbody>
+</table>
+</div>
+</section>
+</div>
 </div>
 
+<div class="content">
+    <div class="alarms">
+        <!-- Past Alarms Section -->
+        <section id="past-alarms">
+            <h2>Past Alarms</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th><button type="button" onclick="sortTable(1, 'past-alarms')">Alarms</button></th>
+                        <th><button type="button" onclick="sortTable(2, 'past-alarms')">Date</button></th>
+                        <th><button type="button" onclick="sortTable(3, 'past-alarms')">Priority</button></th>
+                        <th><button type="button" onclick="sortTable(4, 'past-alarms')">Location</button></th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="scrollable">
+                <table>
+                        <tbody>
+                    <!-- Add a checkbox to each row -->
+                    <tr><td><input type="checkbox"></td><td>Power Failure (3)</td><td>2024-03-01</td><td>High</td><td>Plant 1</td></tr>
+                    
+<!-- More rows... -->
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+<script>
+
+function acknowledgeAlarms() {
+    var currentAlarmsTable = document.querySelector('#current-alarms tbody');
+    var pastAlarmsTable = document.querySelector('#past-alarms tbody');
+    var checkedAlarms = Array.from(currentAlarmsTable.querySelectorAll('input[type="checkbox"]:checked')).map(function(checkbox) {
+        checkbox.checked = false; // Uncheck the checkbox
+        return checkbox.parentElement.parentElement; // Get the row
+    });
+    checkedAlarms.forEach(function(row) {
+        currentAlarmsTable.removeChild(row);
+        pastAlarmsTable.appendChild(row);
+    });
+}
+
+document.getElementById('acknowledge-button').addEventListener('click', moveToPastAlarms);
+
+    // Wait for the entire DOM to load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener for the "Current Alarms" button
+        document.getElementById('current-alarms-button').addEventListener('click', function() {
+            sortTable('current-alarms-table', 0);
+        });
+
+        // Add event listener for the "Past Alarms" button
+        document.getElementById('past-alarms-button').addEventListener('click', function() {
+            sortTable('past-alarms-table', 0);
+        });
+    });
+
+    function sortTable(tableId, column, order) {
+        var table = document.getElementById(tableId);
+        if (!table || !table.rows) {
+            console.error('No table or rows in table with id ' + tableId);
+            return;
+        }
+        var rows = Array.from(table.rows).slice(1); // Exclude header row
+        if (!rows || rows.length === 0) {
+            console.error('No rows to sort');
+            return;
+        }
+        var sortedRows;
+
+        // Define a helper function to parse dates
+        var parseDate = function(dateString) {
+            var [day, month, year] = dateString.split("/");
+            return new Date(year, month - 1, day);
+        };
+
+        // Define the sorting function based on the column
+        switch (column) {
+            case 1: // Alarm Name
+                sortedRows = rows.sort(function(a, b) {
+                    if (!a.cells || !b.cells) {
+                        console.error('No cells in row');
+                        return 0;
+                    }
+                    var nameA = a.cells[column].innerText;
+                    var nameB = b.cells[column].innerText;
+                    var dateA = parseDate(a.cells[2].innerText);
+                    var dateB = parseDate(b.cells[2].innerText);
+
+                    if (nameA < nameB) return -1;
+                    if (nameA > nameB) return 1;
+                    return dateA - dateB; // Secondary rule
+                });
+                break;
+            case 2: // Alarm Date
+                sortedRows = rows.sort(function(a, b) {
+                    if (!a.cells || !b.cells) {
+                        console.error('No cells in row');
+                        return 0;
+                    }
+                    var dateA = parseDate(a.cells[column].innerText);
+                    var dateB = parseDate(b.cells[column].innerText);
+                    return dateA - dateB;
+                });
+                break;
+        }
+        // Add the sorted rows back to the table
+        sortedRows.forEach(function(row) {
+            table.appendChild(row);
+        });
+    }
+</script>
 </body>
 </html>
