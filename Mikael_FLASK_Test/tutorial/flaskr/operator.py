@@ -56,7 +56,7 @@ def alarm_history():
 @bp.route('/chart')
 def chart():
     # Preset data
-    labels = ['January', 'February', 'March', 'April', 'May', 'June']
+    labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6']
     data = [10, 20, 30, 20, 10, 50]
 
     # Pass the data to the template
