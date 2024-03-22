@@ -51,3 +51,13 @@ def alarm_history():
     rows = cursor.fetchall()
     data = [dict(row) for row in rows]
     return render_template('table.html', header="Alarm History", data=data)
+
+#alarm history graph
+@bp.route('/chart')
+def chart():
+    # Preset data
+    labels = ['January', 'February', 'March', 'April', 'May', 'June']
+    data = [10, 20, 30, 20, 10, 50]
+
+    # Pass the data to the template
+    return render_template('chart.html', labels=labels, data=data)
