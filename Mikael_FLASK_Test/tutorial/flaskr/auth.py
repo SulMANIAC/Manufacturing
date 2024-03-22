@@ -104,14 +104,26 @@ def login():
             
 
             # if the user is maintenance, redirect to maintenance page
+            if username == "m" and password == "1234":
+                return redirect(url_for("maintenance.home"))
+            
+                        # if the user is maintenance, redirect to maintenance page
             if username == "maintenance" and password == "password":
                 return redirect(url_for("maintenance.home"))
             
              # if the user is engineer, redirect to engineer page
-            if username == "engineer" and password == "password":
+            if username == "e" and password == "1234":
                 return redirect(url_for("engineer.home"))
             
+             # if the user is engineer, redirect to engineer page
+            if username == "engineer" and password == "password":
+                return redirect(url_for("engineer.home"))
+
             # if the user is operator, redirect to operator page
+            if username == "o" and password == "1234":
+               return redirect(url_for("operator.home"))
+            
+                        # if the user is operator, redirect to operator page
             if username == "operator" and password == "password":
                return redirect(url_for("operator.home"))
 
