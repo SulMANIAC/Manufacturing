@@ -1,7 +1,13 @@
 import sqlite3
 import csv
 import random
+import os
 
+# Get the directory of the current file (alarmPanel.py)
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the full path to the alarms.csv file
+file_path = os.path.join(dir_path, "Alarm Data", "alarms_log_data", "alarms_log_data", "raw", "alarms.csv")
 
 # Connect to the SQLite database (or create it if it doesn't exist)
 conn = sqlite3.connect('alarmPanel.db')
@@ -39,7 +45,7 @@ def insert_data(table_name, data):
     cursor.execute(f"INSERT INTO {table_name} (Alarms, Date, Priority, Location) VALUES (?, ?, ?, ?)", data)
 
 # Read the CSV file and select 50 random rows
-with open('./Alarm Data/alarms_log_data/alarms_log_data/raw/alarms.csv', 'r') as file:
+with open(file_path, 'r') as file:
     csv_reader = csv.reader(file)
     next(csv_reader)  # Skip the header row
     all_rows = list(csv_reader)
