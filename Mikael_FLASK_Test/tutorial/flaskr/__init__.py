@@ -2,8 +2,7 @@ import os
 import subprocess
 
 from flask import Flask
-
-
+from . import db  # add this line
 
 def run_fake_data_script():
     # Get the directory of the current file (__init__.py)
@@ -14,8 +13,6 @@ def run_fake_data_script():
     
     subprocess.run(["python", script_path], check=True)
     print("Generated Fake Data")
-
-
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -45,11 +42,7 @@ def create_app(test_config=None):
         return "Hello, World!"
 
     # register the database commands
-    from . import db
-    
-    run_fake_data_script()
-
-    db.init_app(app)
+    db.init_app(app)  # ensure this line is present
 
     # apply the blueprints to the app
     from . import auth
@@ -70,6 +63,8 @@ def create_app(test_config=None):
     # the tutorial the blog will be the main index
     app.add_url_rule("/", endpoint="index")
 
+    # Call init_db to initialize the database
+    with app.app_context():
+        db.init_db()
+
     return app
-
-
