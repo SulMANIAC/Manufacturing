@@ -14,6 +14,16 @@ def run_fake_data_script():
     subprocess.run(["python", script_path], check=True)
     print("Generated Fake Data")
 
+def generate_alarm_data():
+    # Get the directory of the current file (__init__.py)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    
+    # Construct the full path to the alarm panel script
+    script_path = os.path.join(dir_path, "alarmPanel.py")
+    
+    subprocess.run(["python", script_path], check=True)
+    print("Generated Alarm Data")
+
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
@@ -66,5 +76,6 @@ def create_app(test_config=None):
     # Call init_db to initialize the database
     with app.app_context():
         db.init_db()
+        generate_alarm_data()  # Add this line
 
     return app
