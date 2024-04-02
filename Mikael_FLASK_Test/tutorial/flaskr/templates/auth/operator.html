@@ -243,28 +243,23 @@ window.acknowledgeAlarms = function() {
                         <th><button type="button" onclick="sortTable('current-alarms', 4)">Location</button></th>
                     </tr>
                 </thead>
+                <tbody>
+                    <!-- Dynamically add rows here -->
+                    {% for alarm in current_alarms %}
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>{{ alarm.Alarms }}</td>
+                        <td>{{ alarm.Date }}</td>
+                        <td>{{ alarm.Priority }}</td>
+                        <td>{{ alarm.Location }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-            <div class="scrollable">
-                <table>
-                        <tbody>
-                    <!-- Add a checkbox to each row -->
-                    <tr><td><input type="checkbox"></td><td>Power Failure (1)</td><td>2024-03-01</td><td>High</td><td>Plant 1</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Power Failure (2)</td><td>2024-03-08</td><td>Medium</td><td>Plant 2</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Temperature Alarm</td><td>2024-03-15</td><td>High</td><td>Plant 3</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Pressure Alarm</td><td>2024-03-22</td><td>Low</td><td>Plant 1</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Humidity Alarm</td><td>2024-03-29</td><td>Medium</td><td>Plant 2</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Vibration Alarm (1)</td><td>2024-04-05</td><td>High</td><td>Plant 3</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Vibration Alarm (2)</td><td>2024-04-12</td><td>Medium</td><td>Plant 1</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Flow Rate Alarm</td><td>2024-04-19</td><td>Low</td><td>Plant 2</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Gas Leak Alarm</td><td>2024-04-26</td><td>High</td><td>Plant 3</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Fire Alarm</td><td>2024-05-03</td><td>High</td><td>Plant 1</td></tr>
-<!-- More rows... -->
-</tbody>
-</table>
+        </section>
+    </div>
 </div>
-</section>
-</div>
-</div>
+
 
 <div class="content">
     <div class="alarms">
@@ -281,20 +276,23 @@ window.acknowledgeAlarms = function() {
                         <th><button type="button" onclick="sortTable(4, 'past-alarms')">Location</button></th>
                     </tr>
                 </thead>
+                <tbody>
+                    <!-- Dynamically add rows here -->
+                    {% for alarm in past_alarms %}
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>{{ alarm.Alarms }}</td>
+                        <td>{{ alarm.Date }}</td>
+                        <td>{{ alarm.Priority }}</td>
+                        <td>{{ alarm.Location }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-            <div class="scrollable">
-                <table>
-                        <tbody>
-                    <!-- Add a checkbox to each row -->
-                    <tr><td><input type="checkbox"></td><td>Power Failure (3)</td><td>2024-03-01</td><td>High</td><td>Plant 1</td></tr>
-                    
-<!-- More rows... -->
-</tbody>
-</table>
+        </section>
+    </div>
 </div>
-</section>
-</div>
-</div>
+
 <script>
 
 function acknowledgeAlarms() {

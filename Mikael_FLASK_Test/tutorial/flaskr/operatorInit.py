@@ -1,11 +1,33 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 import sqlite3
+import os
+import subprocess
 
 bp = Blueprint("operator", __name__)
 
 @bp.route('/')
 def home():
-    return render_template("auth/operator.html")
+    print("Accessed Operator Alarms Route.")
+    # Connect to the SQLite database
+    conn = sqlite3.connect("alarmPanel.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Query the current alarms, limit to 25
+    cursor.execute("SELECT * FROM currentAlarms ORDER BY Date DESC LIMIT 25")
+    current_alarms = cursor.fetchall()
+    print("Current Alarms:", current_alarms)  # Debugging line
+
+    # Query the past alarms, limit to 25
+    cursor.execute("SELECT * FROM pastAlarms ORDER BY Date DESC LIMIT 25")
+    past_alarms = cursor.fetchall()
+    print("Past Alarms:", past_alarms)  # Debugging line
+
+    # Close the database connection
+    conn.close()
+
+    # Render the operator.html template with the alarms data
+    return render_template('auth/operator.html', current_alarms=current_alarms, past_alarms=past_alarms)
 
 @bp.route('/logout', methods=['POST'])
 def logout():
@@ -17,9 +39,6 @@ def acknowledge():
     print("Acknowledge button clicked")
     return ('', 204)
 
-@bp.route('/operator')
-def operator():
-    return render_template('operator.html')
 
 @bp.route('/index')
 def index():
