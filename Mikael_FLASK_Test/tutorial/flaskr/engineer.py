@@ -5,7 +5,27 @@ bp = Blueprint("engineer", __name__)
 
 @bp.route('/')
 def home():
-    return render_template("auth/engineer.html")
+    print("Accessed Engineer Alarms Route.")
+    # Connect to the SQLite database
+    conn = sqlite3.connect("alarmPanel.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Query the current alarms, limit to 25
+    cursor.execute("SELECT * FROM currentAlarms ORDER BY Date DESC LIMIT 25")
+    current_alarms = cursor.fetchall()
+    print("Current Alarms:", current_alarms)  # Debugging line
+
+    # Query the past alarms, limit to 25
+    cursor.execute("SELECT * FROM pastAlarms ORDER BY Date DESC LIMIT 25")
+    past_alarms = cursor.fetchall()
+    print("Past Alarms:", past_alarms)  # Debugging line
+
+    # Close the database connection
+    conn.close()
+
+    # Render the engineer.html template with the alarms data
+    return render_template('auth/engineer.html', current_alarms=current_alarms, past_alarms=past_alarms)
 
 @bp.route('/logout', methods=['POST'])
 def logout():
