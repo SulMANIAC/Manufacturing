@@ -201,7 +201,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
 </head>
 <body>
 
-
 </style>
 </head>
 <body>
@@ -253,6 +252,11 @@ window.onload = function() {
         - dates.filter(v => v===b).length
     ).pop();
     };
+    
+    // Define the refreshData function here
+    document.getElementById('refresh-button').addEventListener('click', function() {
+        // Add your data refreshing logic here
+    });
 
 document.getElementById('acknowledge-button').addEventListener('click', function() {
     var currentAlarmsTable = document.querySelector('#current-alarms tbody');
@@ -288,12 +292,12 @@ document.getElementById('acknowledge-button').addEventListener('click', function
     <div class="alarms">
         <!-- Current Alarms Section -->
         <section id="current-alarms">
-            <h2>Current Alarms</h2>
+        <h2>Current Alarms <button onclick="location.reload();">Refresh</button></h2>
             <table>
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th><button type="button" onclick="sortTable('current-alarms', 1)">Alarms</button></th>
+                        <th><button type="button" onclick="sortTable('current-alarms', 1)">Alarm_Type</button></th>
                         <th><button type="button" onclick="sortTable('current-alarms', 2)">Date</button></th>
                         <th><button type="button" onclick="sortTable('current-alarms', 3)">Priority</button></th>
                         <th><button type="button" onclick="sortTable('current-alarms', 4)">Location</button></th>
@@ -304,16 +308,19 @@ document.getElementById('acknowledge-button').addEventListener('click', function
                 <table>
                         <tbody>
                     <!-- Add a checkbox to each row -->
-                    <tr><td><input type="checkbox"></td><td>Power Failure (1)</td><td>2024-03-01</td><td>High</td><td>Plant 1</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Power Failure (2)</td><td>2024-03-08</td><td>Medium</td><td>Plant 2</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Temperature Alarm</td><td>2024-03-15</td><td>High</td><td>Plant 3</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Pressure Alarm</td><td>2024-03-22</td><td>Low</td><td>Plant 1</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Humidity Alarm</td><td>2024-03-29</td><td>Medium</td><td>Plant 2</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Vibration Alarm (1)</td><td>2024-04-05</td><td>High</td><td>Plant 3</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Vibration Alarm (2)</td><td>2024-04-12</td><td>Medium</td><td>Plant 1</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Flow Rate Alarm</td><td>2024-04-19</td><td>Low</td><td>Plant 2</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Gas Leak Alarm</td><td>2024-04-26</td><td>High</td><td>Plant 3</td></tr>
-                    <tr><td><input type="checkbox"></td><td>Fire Alarm</td><td>2024-05-03</td><td>High</td><td>Plant 1</td></tr>
+                    <tbody>
+                        <tbody>
+                            {% for alarm in current_alarms %}
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>{{ alarm.id }}</td>
+                                <td>{{ alarm.alarm_type }}</td>
+                                <td>{{ alarm.priority }}</td>
+                                <td>{{ alarm.plant }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </tbody>
 <!-- More rows... -->
 </tbody>
 </table>
