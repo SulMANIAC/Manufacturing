@@ -5,132 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Engineer Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f3f3f3;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #B975FF;
-            width: 100%;
-        }
-        header button {
-            padding: 10px;
-            background-color: #F5F5F5;
-            border: none;
-            color: black;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-        header h1 {
-            margin: 0;
-        }
-        .content {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .alarms {
-            width: 50%;
-            padding: 20px;
-        }
-        .alarms h2 {
-            margin-top: 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #B975FF;
-            color: white;
-        }
-        .graphs {
-            width: 50%;
-            padding: 20px;
-        }
-        .graphs button {
-            padding: 15px;
-            background-color: #B975FF;
-            border: none;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-    .graphs {
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #e8e6d9; /* Soft pastel green */
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid #7efc0042; /* Slightly darker shade */
+}
+
+header button {
+    padding: 10px;
+    background-color: #D3D3D3; /* Light grey */
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.alarms {
+    width: 50%;
+    padding: 20px;
+}
+
+.alarms h2 {
+    margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    background-color: lightgray;
+}
+
+th {
+    color: white;
+}
+
+th:first-child, td:first-child {
+    width: 10%;
+    text-align: center;
+}
+
+table th, table td {
+    padding: 10px;
+}
+
+th:nth-child(n+2), td:nth-child(n+2) {
+    width: 22.5%;
+}
+
+#current-alarms th {
+    background-color: #d3C4BE;
+}
+
+#past-alarms th {
+    background-color: #E9CCB1;
+}
+
+.graphs {
+    width: 50%;
+    padding: 20px;
+}
+
+.graphs button {
+    padding: 15px;
+    background-color: #e8e6d9;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#current-alarms table, #past-alarms table {
+    width: 100%;
+    display: table;
+}
+
+#current-alarms thead, #past-alarms thead {
+    display: table-header-group;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#current-alarms tbody, #past-alarms tbody {
+    display: table-row-group;
+    overflow: auto;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.scrollable {
+    height: 450px;
+    overflow-y: auto;
+}
+
+#past-alarms {
+    align-self: flex-start;
+    justify-self: flex-start;
+    text-align: left; 
+    margin: 0; 
+    padding: 0; 
+}
+#current-alarms tfoot {
+    background-color: #c4bdac; 
+}
+
+#past-alarms tfoot {
+    background-color: #c4bdac; 
+}
+
+.bottom-bar {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #e8e6d9; /* Soft pastel green */
+    padding: 5px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top: 2px solid #7efc0042; /* Slightly darker shade */
+}
+
+    .bottom-bar section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bottom-bar form {
+        display: flex;
+    }
+
+    .button-container {
         display: flex;
         justify-content: space-between;
-        width: 100%;
+        gap: 10px;
+        margin-top: -10px; /* Adjust this value to reduce the gap */
     }
-    .section {
-        width: 33%;
-        padding: 20px;
-    }
-        .content {
-            display: flex;
-        }
-        .alarms {
-            width: 50%;
-            padding: 20px;
-        }
-        .graphs {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-        }
-        .section {
-            width: 100%;
-            padding: 20px;
-        }
-        .content {
-            display: flex;
-        }
-        .alarms {
-            width: 50%;
-            padding: 20px;
-        }
-        .graphs {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-        }
-        .section-row {
-            display: flex;
-            justify-content: space-between;
-        }
-        .section {
-            width: 33%;
-            padding: 20px;
-        }
-        .section form {
-            display: inline-block;
-            margin-right: 10px;
-        }
-        .section button {
-            width: 190px;  /* Adjusted width */
-        }
+
+    .bottom-bar button {
+    background-color: #D3D3D3; /* Light grey */
+    color: black; /* Text color */
+    border: 1px solid #999999; /* Border outline */
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -173,47 +237,50 @@
          </section>
     </div>
 
-    <div class="graphs">
+    <div class="graphs bottom-bar" style="display: flex; justify-content: space-between;">
         <section id="alarm-data-graphs">
-           <h2>Alarm Data Graphs</h2>
-           <!-- Placeholder for Alarm Frequency Graph -->
-           Alarm Frequency Graph
-           <button onclick="window.open('/chart', '_blank')">Open Chart</button>
-         </section>
-
-        <div class="section-row">
-            <div class="section" id="reports">
-               <h2>Reports</h2>
-               <form action="{{ url_for('engineer.alarm_report') }}" method="POST">
-                   <button type="submit">Alarm Report</button>
-               </form>
-               <form action="{{ url_for('engineer.operator_actions') }}" method="POST">
-                   <button type="submit">Operator Actions</button>
-               </form>
+            <h2>Alarm Data Graphs</h2>
+            <div class="button-container">
+                <button onclick="window.open('/chart', '_blank')">Open Chart</button>
             </div>
+        </section>
 
-            <div class="section" id="forecasting">
-               <h2>Forecasting</h2>
-               <form action="{{ url_for('engineer.forecasting_actions') }}" method="POST">
-                   <button type="submit">Forecasting Actions</button>
-               </form>
-               <form action="{{ url_for('engineer.forecasting_data') }}" method="POST">
-                   <button type="submit">Forecasting Graphs</button>
-               </form>
+        <section id="reports">
+            <h2>Reports</h2>
+            <div class="button-container">
+                <form action="{{ url_for('engineer.alarm_report') }}" method="POST">
+                    <button type="submit">Alarm Report</button>
+                </form>
+                <form action="{{ url_for('engineer.operator_actions') }}" method="POST">
+                    <button type="submit">Operator Actions</button>
+                </form>
             </div>
+        </section>
 
-            <div class="section" id="records">
-               <h2>Records</h2>
-               <form action="{{ url_for('engineer.acknowledge_history') }}" method="POST">
-                   <button type="submit">Acknowledge History</button>
-               </form>
-               <form action="{{ url_for('engineer.alarm_history') }}" method="POST">
-                   <button type="submit">Alarm History</button>
-               </form>
+        <section id="forecasting">
+            <h2>Forecasting</h2>
+            <div class="button-container">
+                <form action="{{ url_for('engineer.forecasting_actions') }}" method="POST">
+                    <button type="submit">Forecasting Actions</button>
+                </form>
+                <form action="{{ url_for('engineer.forecasting_data') }}" method="POST">
+                    <button type="submit">Forecasting Graphs</button>
+                </form>
             </div>
-        </div>
+        </section>
+
+        <section id="records">
+            <h2>Records</h2>
+            <div class="button-container">
+                <form action="{{ url_for('engineer.acknowledge_history') }}" method="POST">
+                    <button type="submit">Acknowledge History</button>
+                </form>
+                <form action="{{ url_for('engineer.alarm_history') }}" method="POST">
+                    <button type="submit">Alarm History</button>
+                </form>
+            </div>
+        </section>
     </div>
-</div>
 
 </body>
 </html>

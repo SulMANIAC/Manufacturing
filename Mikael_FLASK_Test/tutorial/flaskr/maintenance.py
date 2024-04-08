@@ -61,9 +61,21 @@ def alarm_history():
     data = [dict(row) for row in rows]
     return render_template('table.html', header="Alarm History", data=data)
 
-@bp.route('/maintenance')
-def maintenance():
-    return render_template('maintenance.html')
+def maintenance_current_alarm():
+    conn = sqlite3.connect("current_alarms.db")  # Connect to the database
+    cursor = conn.cursor()
+
+    # Execute the SQL script
+    with open('current_alarms.sql', 'r') as sql_file:
+        sql_script = sql_file.read()
+    cursor.executescript(sql_script)
+
+    # Query the data
+    cursor.execute("SELECT * FROM current_alarms")  
+    rows = cursor.fetchall()
+    data = [dict(row) for row in rows]
+    print(data)  # Debug print
+    return render_template('maintenance.html', current_alarms=data)
 
 @bp.route('/index')
 def index():
