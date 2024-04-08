@@ -40,6 +40,10 @@ CREATE TABLE IF NOT EXISTS pastAlarms (
 cursor.execute(create_current_alarms_table)
 cursor.execute(create_past_alarms_table)
 
+# Clear the currentAlarms and pastAlarms tables before inserting new data
+cursor.execute("DELETE FROM currentAlarms")
+cursor.execute("DELETE FROM pastAlarms")
+
 # Function to insert data into the specified table
 def insert_data(table_name, data):
     cursor.execute(f"INSERT INTO {table_name} (Alarms, Date, Priority, Location) VALUES (?, ?, ?, ?)", data)
