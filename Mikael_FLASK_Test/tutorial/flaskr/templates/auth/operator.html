@@ -179,29 +179,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
 </body>
 <script>
 
-window.onload = function() {
-    var alarmsTable = document.querySelector('#current-alarms tbody');
-    var alarms = Array.from(alarmsTable.querySelectorAll('tr'));
-    var totalAlarms = alarms.length;
-    var highPriorityAlarms = alarms.filter(function(row) {
-        return row.cells[3].innerText === 'High';
-    }).length;
-    var plants = alarms.map(function(row) {
-        return row.cells[4].innerText;
-    });
-    var mostIssuesPlant = plants.sort((a,b) =>
-          plants.filter(v => v===a).length
-        - plants.filter(v => v===b).length
-    ).pop();
-    var dates = alarms.map(function(row) {
-        return row.cells[2].innerText;
-    });
-    var dateHighestAlarms = dates.sort((a,b) =>
-          dates.filter(v => v===a).length
-        - dates.filter(v => v===b).length
-    ).pop();
-    };
-
 document.getElementById('acknowledge-button').addEventListener('click', function() {
     var currentAlarmsTable = document.querySelector('#current-alarms tbody');
     var pastAlarmsTable = document.querySelector('#past-alarms tbody');
@@ -270,10 +247,10 @@ window.acknowledgeAlarms = function() {
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th><button type="button" onclick="sortTable(1, 'past-alarms')">Alarms</button></th>
-                        <th><button type="button" onclick="sortTable(2, 'past-alarms')">Date</button></th>
-                        <th><button type="button" onclick="sortTable(3, 'past-alarms')">Priority</button></th>
-                        <th><button type="button" onclick="sortTable(4, 'past-alarms')">Location</button></th>
+                            <th><button type="button" onclick="sortTable('past-alarms', 1)">Alarms</button></th>
+                            <th><button type="button" onclick="sortTable('past-alarms', 2)">Date</button></th>
+                            <th><button type="button" onclick="sortTable('past-alarms', 3)">Priority</button></th>
+                            <th><button type="button" onclick="sortTable('past-alarms', 4)">Location</button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -308,75 +285,44 @@ function acknowledgeAlarms() {
     });
 }
 
-document.getElementById('acknowledge-button').addEventListener('click', moveToPastAlarms);
+function sortTable(tableId, columnIndex) {
+    var table = document.getElementById(tableId);
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.getElementsByTagName('td')[columnIndex].textContent;
+        var cellB = rowB.getElementsByTagName('td')[columnIndex].textContent;
+
+        if (!isNaN(cellA) && !isNaN(cellB)) {
+            // If the cells contain numbers, convert them to numbers for comparison
+            return cellA - cellB;
+        } else {
+            // If the cells contain text, compare them lexicographically
+            return cellA.localeCompare(cellB);
+        }
+    });
+
+    // Remove the existing rows from the tbody
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    // Append the sorted rows to the tbody
+    rows.forEach(function(row) {
+        tbody.appendChild(row);
+    });
+}
+
+document.getElementById('acknowledge-button').addEventListener('click', acknowledgeAlarms);
 
     // Wait for the entire DOM to load
     document.addEventListener('DOMContentLoaded', function() {
-        // Add event listener for the "Current Alarms" button
         document.getElementById('current-alarms-button').addEventListener('click', function() {
-            sortTable('current-alarms-table', 0);
         });
-
         // Add event listener for the "Past Alarms" button
-        document.getElementById('past-alarms-button').addEventListener('click', function() {
             sortTable('past-alarms-table', 0);
-        });
     });
-
-    function sortTable(tableId, column, order) {
-        var table = document.getElementById(tableId);
-        if (!table || !table.rows) {
-            console.error('No table or rows in table with id ' + tableId);
-            return;
-        }
-        var rows = Array.from(table.rows).slice(1); // Exclude header row
-        if (!rows || rows.length === 0) {
-            console.error('No rows to sort');
-            return;
-        }
-        var sortedRows;
-
-        // Define a helper function to parse dates
-        var parseDate = function(dateString) {
-            var [day, month, year] = dateString.split("/");
-            return new Date(year, month - 1, day);
-        };
-
-        // Define the sorting function based on the column
-        switch (column) {
-            case 1: // Alarm Name
-                sortedRows = rows.sort(function(a, b) {
-                    if (!a.cells || !b.cells) {
-                        console.error('No cells in row');
-                        return 0;
-                    }
-                    var nameA = a.cells[column].innerText;
-                    var nameB = b.cells[column].innerText;
-                    var dateA = parseDate(a.cells[2].innerText);
-                    var dateB = parseDate(b.cells[2].innerText);
-
-                    if (nameA < nameB) return -1;
-                    if (nameA > nameB) return 1;
-                    return dateA - dateB; // Secondary rule
-                });
-                break;
-            case 2: // Alarm Date
-                sortedRows = rows.sort(function(a, b) {
-                    if (!a.cells || !b.cells) {
-                        console.error('No cells in row');
-                        return 0;
-                    }
-                    var dateA = parseDate(a.cells[column].innerText);
-                    var dateB = parseDate(b.cells[column].innerText);
-                    return dateA - dateB;
-                });
-                break;
-        }
-        // Add the sorted rows back to the table
-        sortedRows.forEach(function(row) {
-            table.appendChild(row);
-        });
-    }
 </script>
 </body>
 </html>
