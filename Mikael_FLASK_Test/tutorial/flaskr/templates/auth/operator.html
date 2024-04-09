@@ -323,60 +323,39 @@ document.getElementById('acknowledge-button').addEventListener('click', moveToPa
         });
     });
 
-    function sortTable(tableId, column, order) {
+
+</script>
+
+<script>
+    function sortTable(tableId, columnIndex) {
         var table = document.getElementById(tableId);
-        if (!table || !table.rows) {
-            console.error('No table or rows in table with id ' + tableId);
-            return;
+        var tbody = table.getElementsByTagName('tbody')[0];
+        var rows = Array.from(tbody.getElementsByTagName('tr'));
+    
+        rows.sort(function(rowA, rowB) {
+            var cellA = rowA.getElementsByTagName('td')[columnIndex].textContent;
+            var cellB = rowB.getElementsByTagName('td')[columnIndex].textContent;
+    
+            if (!isNaN(cellA) && !isNaN(cellB)) {
+                // If the cells contain numbers, convert them to numbers for comparison
+                return cellA - cellB;
+            } else {
+                // If the cells contain text, compare them lexicographically
+                return cellA.localeCompare(cellB);
+            }
+        });
+    
+        // Remove the existing rows from the tbody
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
         }
-        var rows = Array.from(table.rows).slice(1); // Exclude header row
-        if (!rows || rows.length === 0) {
-            console.error('No rows to sort');
-            return;
-        }
-        var sortedRows;
-
-        // Define a helper function to parse dates
-        var parseDate = function(dateString) {
-            var [day, month, year] = dateString.split("/");
-            return new Date(year, month - 1, day);
-        };
-
-        // Define the sorting function based on the column
-        switch (column) {
-            case 1: // Alarm Name
-                sortedRows = rows.sort(function(a, b) {
-                    if (!a.cells || !b.cells) {
-                        console.error('No cells in row');
-                        return 0;
-                    }
-                    var nameA = a.cells[column].innerText;
-                    var nameB = b.cells[column].innerText;
-                    var dateA = parseDate(a.cells[2].innerText);
-                    var dateB = parseDate(b.cells[2].innerText);
-
-                    if (nameA < nameB) return -1;
-                    if (nameA > nameB) return 1;
-                    return dateA - dateB; // Secondary rule
-                });
-                break;
-            case 2: // Alarm Date
-                sortedRows = rows.sort(function(a, b) {
-                    if (!a.cells || !b.cells) {
-                        console.error('No cells in row');
-                        return 0;
-                    }
-                    var dateA = parseDate(a.cells[column].innerText);
-                    var dateB = parseDate(b.cells[column].innerText);
-                    return dateA - dateB;
-                });
-                break;
-        }
-        // Add the sorted rows back to the table
-        sortedRows.forEach(function(row) {
-            table.appendChild(row);
+    
+        // Append the sorted rows to the tbody
+        rows.forEach(function(row) {
+            tbody.appendChild(row);
         });
     }
-</script>
+    </script>
+
 </body>
 </html>
