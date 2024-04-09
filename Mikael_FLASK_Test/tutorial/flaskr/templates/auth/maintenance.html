@@ -292,42 +292,34 @@ document.getElementById('acknowledge-button').addEventListener('click', function
     <div class="alarms">
         <!-- Current Alarms Section -->
         <section id="current-alarms">
-        <h2>Current Alarms <button onclick="location.reload();">Refresh</button></h2>
+            <h2>Current Alarms</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th><button type="button" onclick="sortTable('current-alarms', 1)">Alarm_Type</button></th>
+                        <th><button type="button" onclick="sortTable('current-alarms', 1)">Alarms</button></th>
                         <th><button type="button" onclick="sortTable('current-alarms', 2)">Date</button></th>
                         <th><button type="button" onclick="sortTable('current-alarms', 3)">Priority</button></th>
                         <th><button type="button" onclick="sortTable('current-alarms', 4)">Location</button></th>
                     </tr>
                 </thead>
+                <tbody>
+                    <!-- Dynamically add rows here -->
+                    {% for alarm in current_alarms %}
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>{{ alarm.Alarms }}</td>
+                        <td>{{ alarm.Date }}</td>
+                        <td>{{ alarm.Priority }}</td>
+                        <td>{{ alarm.Location }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-            <div class="scrollable">
-                <table>
-                        <tbody>
-                    <!-- Add a checkbox to each row -->
-                    <tbody>
-                        <tbody>
-                            {% for alarm in current_alarms %}
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>{{ alarm.id }}</td>
-                                <td>{{ alarm.alarm_type }}</td>
-                                <td>{{ alarm.priority }}</td>
-                                <td>{{ alarm.plant }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </tbody>
-<!-- More rows... -->
-</tbody>
-</table>
+        </section>
+    </div>
 </div>
-</section>
-</div>
-</div>
+
 
 <div class="content">
     <div class="alarms">
@@ -338,25 +330,27 @@ document.getElementById('acknowledge-button').addEventListener('click', function
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th><button type="button" onclick="sortTable('past-alarms', 1)">Alarms</button></th>
-                        <th><button type="button" onclick="sortTable('past-alarms', 2)">Date</button></th>
-                        <th><button type="button" onclick="sortTable('past-alarms', 3)">Priority</button></th>
-                        <th><button type="button" onclick="sortTable('past-alarms', 4)">Location</button></th>
+                        <th><button type="button" onclick="sortTable(1, 'past-alarms')">Alarms</button></th>
+                        <th><button type="button" onclick="sortTable(2, 'past-alarms')">Date</button></th>
+                        <th><button type="button" onclick="sortTable(3, 'past-alarms')">Priority</button></th>
+                        <th><button type="button" onclick="sortTable(4, 'past-alarms')">Location</button></th>
                     </tr>
                 </thead>
+                <tbody>
+                    <!-- Dynamically add rows here -->
+                    {% for alarm in past_alarms %}
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>{{ alarm.Alarms }}</td>
+                        <td>{{ alarm.Date }}</td>
+                        <td>{{ alarm.Priority }}</td>
+                        <td>{{ alarm.Location }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-            <div class="scrollable">
-                <table>
-                        <tbody>
-                    <!-- Add a checkbox to each row -->
-                    <tr><td><input type="checkbox"></td><td>Power Failure (3)</td><td>2024-03-01</td><td>High</td><td>Plant 1</td></tr>
-                    
-<!-- More rows... -->
-</tbody>
-</table>
-</div>
-</section>
-</div>
+        </section>
+    </div>
 </div>
 
 <body>
