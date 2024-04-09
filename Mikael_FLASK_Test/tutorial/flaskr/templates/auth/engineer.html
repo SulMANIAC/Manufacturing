@@ -278,7 +278,8 @@ th:nth-child(n+2), td:nth-child(n+2) {
         <section id="alarm-data-graphs">
             <h2>Alarm Data Graphs</h2>
             <div class="button-container">
-                <button onclick="window.open('/chart', '_blank')">Open Chart</button>
+                <!-- <button onclick="window.open('/chart', '_blank')">Open Chart</button> -->
+                        <canvas id="myChart"></canvas>
             </div>
         </section>
 
@@ -319,11 +320,36 @@ th:nth-child(n+2), td:nth-child(n+2) {
         </section>
     </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Chart.js code goes here
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My Dataset',
+                data: [10, 20, 30, 40, 50, 60, 70],
+                backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
+
 </body>
 </html>
-
-
-
-
-
-
