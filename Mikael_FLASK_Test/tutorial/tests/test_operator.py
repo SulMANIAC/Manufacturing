@@ -22,11 +22,11 @@ def test_home(client):
     assert response.status_code == 200
 
 def test_logout(client):
-    response = client.post('/logout')
+    response = client.post('/logout', methods=['POST'])
     assert response.status_code == 302
 
 def test_acknowledge(client):
-    response = client.post('/acknowledge')
+    response = client.post('/acknowledge', methods=['POST'])
     assert response.status_code == 204
 
 def test_operator(client):
@@ -38,11 +38,11 @@ def test_index(client):
     assert response.status_code == 200
 
 def test_acknowledge_history(client):
-    response = client.post('/acknowledge_history')
+    response = client.post('/acknowledge_history', methods=['POST'])
     assert response.status_code == 200
 
 def test_alarm_history(client):
-    response = client.post('/alarm_history')
+    response = client.post('/alarm_history', methods=['POST'])
     assert response.status_code == 200
 
 def test_chart(client):
