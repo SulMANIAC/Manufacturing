@@ -3,8 +3,9 @@ import sqlite3
 
 bp = Blueprint("maintenance", __name__)
 
+@bp.route('/')
 def home():
-    print("Accessed Maintenance Alarms Route.")
+    print("Accessed maintenance Alarms Route.")
     # Connect to the SQLite database
     conn = sqlite3.connect("alarmPanel.db")
     conn.row_factory = sqlite3.Row
