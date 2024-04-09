@@ -3,9 +3,28 @@ import sqlite3
 
 bp = Blueprint("maintenance", __name__)
 
-@bp.route('/')
 def home():
-    return render_template("auth/maintenance.html")
+    print("Accessed Maintenance Alarms Route.")
+    # Connect to the SQLite database
+    conn = sqlite3.connect("alarmPanel.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Query the current alarms, limit to 25
+    cursor.execute("SELECT * FROM currentAlarms ORDER BY Date DESC LIMIT 25")
+    current_alarms = cursor.fetchall()
+    print("Current Alarms:", current_alarms)  # Debugging line
+
+    # Query the past alarms, limit to 25
+    cursor.execute("SELECT * FROM pastAlarms ORDER BY Date DESC LIMIT 25")
+    past_alarms = cursor.fetchall()
+    print("Past Alarms:", past_alarms)  # Debugging line
+
+    # Close the database connection
+    conn.close()
+
+    # Render the maintenance.html template with the alarms data
+    return render_template('auth/maintenance.html', current_alarms=current_alarms, past_alarms=past_alarms)
 
 @bp.route('/logout', methods=['POST'])
 def logout():
