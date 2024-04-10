@@ -195,6 +195,16 @@ th:nth-child(n+2), td:nth-child(n+2) {
     margin: 4px 2px;
     cursor: pointer;
 }
+
+@keyframes blink {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.blinking {
+    animation: blink 1s infinite;
+}
     </style>
 </head>
 <body>
@@ -213,8 +223,8 @@ th:nth-child(n+2), td:nth-child(n+2) {
     <div class="alarms">
         <!-- Current Alarms Section -->
         <section id="current-alarms">
-            <h2>Current Alarms</h2>
-            <table>
+            <h2>Current Alarms</h2> <div id="indicator" style="width: 20px; height: 20px; border: 1px solid black;"></div>
+            <table id="alarmTable">
                 <thead>
                     <tr>
                         <th>Select</th>
@@ -240,7 +250,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
         </section>
     </div>
 </div>
-
 
 <div class="content">
     <div class="alarms">
@@ -273,6 +282,8 @@ th:nth-child(n+2), td:nth-child(n+2) {
         </section>
     </div>
 </div>
+
+
 
 <div class="graphs bottom-bar" style="display: flex; justify-content: space-between;">
     <section id="alarm-data-graphs">
@@ -320,7 +331,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
     </section>
 </div>
 
-
 <script>
     function acknowledgeAlarms() {
         var currentAlarmsTable = document.querySelector('#current-alarms tbody');
@@ -338,6 +348,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
 </script>
 
 <script>
+
 
     function sortTable(tableId, columnIndex) {
         var table = document.getElementById(tableId);
@@ -479,6 +490,47 @@ th:nth-child(n+2), td:nth-child(n+2) {
     }
 
     updateChart(); // Call the function to create the chart
+</script>
+
+<script>
+// Function to check the number of high priority alarms and change the indicator accordingly
+function checkAlarms() {
+    // Get the table
+    var table = document.getElementById("alarmTable");
+    var tbody = table.getElementsByTagName('tbody')[0];
+    // Get all the rows in the tbody of the table
+    var rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    var highPriorityAlarms = 0; // Initialize the count of high priority alarms
+
+    // Loop through the rows and check for high priority alarms
+    rows.forEach(function(row) {
+        var cells = row.getElementsByTagName('td');
+        var priority = cells.length > 3 ? cells[3].textContent : '';
+        if (priority === 'High') {
+            highPriorityAlarms++;
+        }
+    });
+
+    // Get the indicator element
+    var indicator = document.getElementById("indicator");
+    // Change the indicator based on the number of high priority alarms
+    if (highPriorityAlarms >= 3) {
+        indicator.style.backgroundColor = "red";
+        indicator.classList.add("blinking");
+    } else if (highPriorityAlarms > 0) {
+        indicator.style.backgroundColor = "yellow";
+        indicator.classList.remove("blinking");
+    } else {
+        indicator.style.backgroundColor = "green";
+        indicator.classList.remove("blinking");
+    }
+}
+
+// Call the function when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setInterval(checkAlarms, 1000);
+});
 </script>
 
 </body>
