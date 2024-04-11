@@ -83,14 +83,7 @@ def alarm_history():
 
 @bp.route('/forecasting_actions', methods=['POST'])
 def forecasting_actions():
-    print("Forecasting Actions button clicked")
-    conn = sqlite3.connect("alarminfo.db")
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM forecastingactions")
-    rows = cursor.fetchall()
-    data = [dict(row) for row in rows]
-    return render_template('table.html', header="Forecasting Actions", data=data)
+    return render_template('graphView.html')
 
 @bp.route('/forecasting_data', methods=['POST'])
 def forecasting_data():
