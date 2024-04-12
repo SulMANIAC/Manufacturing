@@ -223,7 +223,7 @@ th:nth-child(n+2), td:nth-child(n+2) {
     <div class="alarms">
         <!-- Current Alarms Section -->
         <section id="current-alarms">
-            <h2>Current Alarms</h2> <div id="indicator" style="width: 20px; height: 20px; border: 1px solid black;"></div>
+            <h2>Current Alarms: Red= 3+ High Alarms, Yellow= 2-0 High Alarms, Green = 0 High Alarms</h2> <div id="indicator" style="width: 20px; height: 20px; border: 1px solid black;"></div>
             <table id="alarmTable">
                 <thead>
                     <tr>
@@ -282,8 +282,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
         </section>
     </div>
 </div>
-
-
 
 <div class="graphs bottom-bar" style="display: flex; justify-content: space-between;">
     <section id="alarm-data-graphs">
@@ -348,8 +346,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
 </script>
 
 <script>
-
-
     function sortTable(tableId, columnIndex) {
         var table = document.getElementById(tableId);
         var tbody = table.getElementsByTagName('tbody')[0];
@@ -378,31 +374,6 @@ th:nth-child(n+2), td:nth-child(n+2) {
             tbody.appendChild(row);
         });
     }
-</script>
-
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My Dataset',
-                data: [10, 20, 30, 40, 50, 60, 70],
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
