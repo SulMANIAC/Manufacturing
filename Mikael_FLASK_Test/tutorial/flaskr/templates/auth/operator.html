@@ -150,6 +150,16 @@ th:nth-child(n+2), td:nth-child(n+2) {
     background-color: #FFB7D5; /* Same color as the header of the Past Alarms table */
 }
 
+@keyframes blink {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.blinking {
+    animation: blink 1s infinite;
+}
+
 </style>
 </head>
 <body>
@@ -232,7 +242,7 @@ window.acknowledgeAlarms = function() {
     <div class="alarms">
         <!-- Current Alarms Section -->
         <section id="current-alarms">
-            <h2>Current Alarms</h2>
+            <h2>Current Alarms: Red= 3+ High Alarms, Yellow= 2-0 High Alarms, Green = 0 High Alarms</h2> <div id="indicator" style="width: 20px; height: 20px; border: 1px solid black;"></div>
             <table>
                 <thead>
                     <tr>
@@ -356,6 +366,135 @@ document.getElementById('acknowledge-button').addEventListener('click', moveToPa
         });
     }
     </script>
+
+<script>
+
+    // Function to get data from the table
+    function getDataFromTable() {
+        var table = document.getElementById('current-alarms');
+        var tbody = table.getElementsByTagName('tbody')[0];
+        var rows = Array.from(tbody.getElementsByTagName('tr'));
+
+        var data = {
+    labels: [],
+    datasets: [{
+        label: 'Low',
+        data: [],
+        backgroundColor: '#8C7B76', // Taupe Gray
+        stack: 'Stack 0'
+    }, {
+        label: 'Medium',
+        data: [],
+        backgroundColor: '#A9A18C', // Khaki (X11) / Light Khaki
+        stack: 'Stack 0'
+    }, {
+        label: 'High',
+        data: [],
+        backgroundColor: '#6B8E23', // Olive Drab #3
+        stack: 'Stack 0'
+    }]
+};
+
+        rows.forEach(function(row) {
+            var cells = row.getElementsByTagName('td');
+            var location = cells[4].textContent;
+            var priority = cells[3].textContent;
+
+            var index = data.labels.indexOf(location);
+            if (index === -1) {
+                data.labels.push(location);
+                data.datasets[0].data.push(priority === 'Low' ? 1 : 0);
+                data.datasets[1].data.push(priority === 'Medium' ? 1 : 0);
+                data.datasets[2].data.push(priority === 'High' ? 1 : 0);
+            } else {
+                if (priority === 'Low') {
+                    data.datasets[0].data[index] += 1;
+                } else if (priority === 'Medium') {
+                    data.datasets[1].data[index] += 1;
+                } else if (priority === 'High') {
+                    data.datasets[2].data[index] += 1;
+                }
+            }
+        });
+
+        return data;
+    }
+
+    // Chart.js code
+    var ctx = document.getElementById('myOtherChart').getContext('2d');
+    var myChart;
+
+    function updateChart() {
+        var data = getDataFromTable();
+        if (myChart) {
+            myChart.destroy(); // Destroy the old chart
+        }
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stepSize: 5
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Number of Alarms by Location and Priority'
+                    }
+                }
+            }
+        });
+    }
+
+    updateChart(); // Call the function to create the chart
+</script>
+
+<script>
+// Function to check the number of high priority alarms and change the indicator accordingly
+function checkAlarms() {
+    // Get the table
+    var table = document.getElementById("alarmTable");
+    var tbody = table.getElementsByTagName('tbody')[0];
+    // Get all the rows in the tbody of the table
+    var rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    var highPriorityAlarms = 0; // Initialize the count of high priority alarms
+
+    // Loop through the rows and check for high priority alarms
+    rows.forEach(function(row) {
+        var cells = row.getElementsByTagName('td');
+        var priority = cells.length > 3 ? cells[3].textContent : '';
+        if (priority === 'High') {
+            highPriorityAlarms++;
+        }
+    });
+
+    // Get the indicator element
+    var indicator = document.getElementById("indicator");
+    // Change the indicator based on the number of high priority alarms
+    if (highPriorityAlarms >= 3) {
+        indicator.style.backgroundColor = "red";
+        indicator.classList.add("blinking");
+    } else if (highPriorityAlarms > 0) {
+        indicator.style.backgroundColor = "yellow";
+        indicator.classList.remove("blinking");
+    } else {
+        indicator.style.backgroundColor = "green";
+        indicator.classList.remove("blinking");
+    }
+}
+
+// Call the function when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setInterval(checkAlarms, 1000);
+});
+
+</script>
+
 
 </body>
 </html>

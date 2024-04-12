@@ -518,6 +518,13 @@ function checkAlarms() {
     }
 }
 
+// Call the function when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setInterval(checkAlarms, 1000);
+});
+</script>
+
+<script>
 // Function to get data from the alarm table and forecast future trends
 function getAlarmDataAndForecast() {
     var table = document.getElementById('current-alarms');
@@ -622,11 +629,6 @@ function updateAlarmChart() {
     });
 }
 
-// Call the function when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    setInterval(checkAlarms, 1000);
-});
 </script>
-
 </body>
 </html>
